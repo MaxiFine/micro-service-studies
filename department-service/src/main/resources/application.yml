@@ -1,0 +1,8 @@
+
+spring:
+  application:
+    name: department-service
+#     connecting to the config server
+  config:
+    import: "optional:configserver:http://localhost:8088"
+
