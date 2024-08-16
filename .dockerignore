@@ -41,3 +41,4 @@ build/
 /target/
 
 docker-compose.yml
+.dockerignore
