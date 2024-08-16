@@ -40,13 +40,40 @@ public class DepartmentController {
 
     @GetMapping
     public List<Department> findAllDepartment(){
+        System.out.println("findA:::---------------lll");
         LOGGER.info("Department find all");
             return repository.findAll();
     }
 
     @GetMapping("/{id}")
     public Department getById(@PathVariable Long id) {
+        System.out.println("BYID ----------------" + id);
+
         LOGGER.info("Department Find: id={}", id);
         return repository.findById(id);
     }
+
+//    @GetMapping("/all")
+//    public List<Department> findAll() {
+//        LOGGER.info("Department find");
+//        System.out.println("findA:::---------------lll");
+//        return repository.findAll();
+//    }
+
+    @GetMapping("/with-employees")
+    public List<Department> findAllWithEmployees(){
+        System.out.println("testings-------------");
+        LOGGER.info("Department find: ");
+        List<Department> departments = repository.findAll();
+        System.out.println(departments);
+        System.out.println("DEPAERTMENTS----------");
+        departments.forEach(
+                department -> department.setEmployees(
+                        employeeClient.findByDepartment(department.getId())));
+        return departments;
+    }
+
+
+
+
 }

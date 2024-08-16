@@ -26,25 +26,29 @@ public class EmployeeController {
 
     @PostMapping
     public Employee add(@RequestBody Employee employee) {
+        System.out.println("ADD-------------"+ employee);
         LOGGER.info("Employee added: {}", employee);
         return  repository.addDepartment(employee);
     }
 
     @GetMapping
     public List<Employee> findAllDepartment(){
+        System.out.println("ALLLL:::=----------");
         LOGGER.info("Employee find all");
         return repository.findAll();
     }
 
     @GetMapping("/{id}")
     public Employee findById(@PathVariable Long id) {
+        System.out.println(id + " _______________------------");
         LOGGER.info("Employee Find: id={}", id);
-        return repository.findById(id);
+        return repository.findById(String.valueOf(id));
     }
 
 
     @GetMapping("/department/{departmentId}")
     public List<Employee> findByDepartment(@PathVariable("departmentId") Long departmentId) {
+        System.out.println(departmentId +" -----------------");
         LOGGER.info("Employee find: departmentId={}", departmentId);
         return repository.findByDepartmentId(departmentId);
     }

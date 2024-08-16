@@ -1,7 +1,7 @@
 package microservices.department_service.model;
 
 public record Employee (
-        Long id,
+        String id,
         Long departmentId,
         String name,
         int age,

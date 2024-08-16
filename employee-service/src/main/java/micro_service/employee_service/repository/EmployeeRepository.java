@@ -18,7 +18,7 @@ public class EmployeeRepository {
         return department;
     }
 
-    public Employee findById(Long id) {
+    public Employee findById(String id) {
         return employees.stream()
                 .filter(employee ->
                         employee.id().equals(id))

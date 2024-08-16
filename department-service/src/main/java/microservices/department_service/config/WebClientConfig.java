@@ -25,20 +25,22 @@ public class WebClientConfig {
                 .build();
     }
 
-//    @Bean
-//    public EmployeeClient employeeClient() {
-//        HttpServiceProxyFactory proxyFactory = HttpServiceProxyFactory.builder(WebClient.builder.(employeeWebClient()))
-//                .build();
-//        return proxyFactory.createClient(EmployeeClient.class);
-//    }
-
     @Bean
     public EmployeeClient employeeClient() {
-        // Use the static factory method 'HttpServiceProxyFactory.create()'
-        HttpServiceProxyFactory proxyFactory = HttpServiceProxyFactory.builder(WebClient.builder().baseUrl("http://your-base-url").build())
+        HttpServiceProxyFactory proxyFactory
+                = HttpServiceProxyFactory
+                .builder(WebClientAdapter.forClient(employeeWebClient()))
                 .build();
         return proxyFactory.createClient(EmployeeClient.class);
     }
+
+//    @Bean
+//    public EmployeeClient employeeClient() {
+//        // Use the static factory method 'HttpServiceProxyFactory.create()'
+//        HttpServiceProxyFactory proxyFactory = HttpServiceProxyFactory.builder(WebClient.builder().baseUrl("http://localhost:8080").build())
+//                .build();
+//        return proxyFactory.createClient(EmployeeClient.class);
+//    }
 
 
 }
