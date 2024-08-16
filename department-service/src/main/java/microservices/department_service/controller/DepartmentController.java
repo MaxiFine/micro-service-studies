@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.service.annotation.HttpExchange;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -60,18 +62,43 @@ public class DepartmentController {
 //        return repository.findAll();
 //    }
 
+//    @GetMapping("/with-employees")
+//    public List<Department> findAllWithEmployees(){
+//        System.out.println("testings-------------");
+//        LOGGER.info("Department find: ");
+//        List<Department> departments = repository.findAll();
+//        System.out.println(departments);
+//        System.out.println("DEPAERTMENTS----------");
+//        departments.forEach(
+//                department -> department.setEmployees(
+//                        employeeClient.findByDepartment(department.getId())));
+//        return departments;
+//    }
+
+    // fixing tests
     @GetMapping("/with-employees")
-    public List<Department> findAllWithEmployees(){
-        System.out.println("testings-------------");
-        LOGGER.info("Department find: ");
-        List<Department> departments = repository.findAll();
-        System.out.println(departments);
-        System.out.println("DEPAERTMENTS----------");
-        departments.forEach(
-                department -> department.setEmployees(
-                        employeeClient.findByDepartment(department.getId())));
-        return departments;
+    public List<Department> findAllWithEmployees() {
+        try {
+            LOGGER.info("Department find: ");
+            List<Department> departments = repository.findAll();
+            System.out.println("----------------tests--------");
+            departments.forEach(
+                    department -> {
+                        try {
+                            department.setEmployees(
+                                    employeeClient.findByDepartment(department.getId()));
+                        } catch (WebClientRequestException e) {
+                            LOGGER.error("Failed to fetch employees for department {}: {}", department.getId(), e.getMessage());
+                            department.setEmployees(Collections.emptyList());
+                        }
+                    });
+            return departments;
+        } catch (Exception e) {
+            LOGGER.error("Error retrieving departments with employees", e);
+            throw e; // Re-throw or handle appropriately
+        }
     }
+
 
 
 
