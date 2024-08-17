@@ -1,9 +1,13 @@
-#spring.application.name=config-server
+#spring.application.name=configserver
+
 server:
   port: 8088
 
 # Adding configs locally.
 spring:
+  application:
+    name: configserver
+
   profiles:
     active: native
 
