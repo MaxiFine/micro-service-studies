@@ -3,6 +3,7 @@ package microservices.department_service.controller;
 
 import microservices.department_service.client.EmployeeClient;
 import microservices.department_service.model.Department;
+import microservices.department_service.model.Employee;
 import microservices.department_service.repositories.DepartmentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,42 +63,45 @@ public class DepartmentController {
 //        return repository.findAll();
 //    }
 
-//    @GetMapping("/with-employees")
-//    public List<Department> findAllWithEmployees(){
-//        System.out.println("testings-------------");
-//        LOGGER.info("Department find: ");
+    @GetMapping("/with-employees")
+    public List<Department> findAllWithEmployees(){
+        System.out.println("testings-------------");
+        LOGGER.info("Department find: ");
 //        List<Department> departments = repository.findAll();
 //        System.out.println(departments);
-//        System.out.println("DEPAERTMENTS----------");
+        System.out.println("DEPAERTMENTS----------");
 //        departments.forEach(
+//
 //                department -> department.setEmployees(
 //                        employeeClient.findByDepartment(department.getId())));
-//        return departments;
-//    }
+        List<Employee> dept = employeeClient.findByDepartment(1L);
+        System.out.println(dept);
+        return null;
+    }
 
     // fixing tests
-    @GetMapping("/with-employees")
-    public List<Department> findAllWithEmployees() {
-        try {
-            LOGGER.info("Department find: ");
-            List<Department> departments = repository.findAll();
-            System.out.println("----------------tests--------");
-            departments.forEach(
-                    department -> {
-                        try {
-                            department.setEmployees(
-                                    employeeClient.findByDepartment(department.getId()));
-                        } catch (WebClientRequestException e) {
-                            LOGGER.error("Failed to fetch employees for department {}: {}", department.getId(), e.getMessage());
-                            department.setEmployees(Collections.emptyList());
-                        }
-                    });
-            return departments;
-        } catch (Exception e) {
-            LOGGER.error("Error retrieving departments with employees", e);
-            throw e; // Re-throw or handle appropriately
-        }
-    }
+//    @GetMapping("/with-employees")
+//    public List<Department> findAllWithEmployees() {
+//        try {
+//            LOGGER.info("Department find: ");
+//            List<Department> departments = repository.findAll();
+//            System.out.println("----------------tests--------");
+//            departments.forEach(
+//                    department -> {
+//                        try {
+//                            department.setEmployees(
+//                                    employeeClient.findByDepartment(department.getId()));
+//                        } catch (WebClientRequestException e) {
+//                            LOGGER.error("Failed to fetch employees for department {}: {}", department.getId(), e.getMessage());
+//                            department.setEmployees(Collections.emptyList());
+//                        }
+//                    });
+//            return departments;
+//        } catch (Exception e) {
+//            LOGGER.error("Error retrieving departments with employees", e);
+//            throw e; // Re-throw or handle appropriately
+//        }
+//    }
 
 
 
