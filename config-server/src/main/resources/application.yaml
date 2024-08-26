@@ -5,8 +5,11 @@ server:
 
 # Adding configs locally.
 spring:
-  application:
-    name: configserver
+#  application:
+#    name: configserver
+  cloud:
+    config:
+      enabled: false
 
   profiles:
     active: native
